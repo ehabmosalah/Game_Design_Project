@@ -1,70 +1,83 @@
 using BigRookGames.Weapons;
-using UnityEngine;
-using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
 
-
-public class Boss_Cpmtroller : MonoBehaviour
+public class Boss_Controller : MonoBehaviour
 {
-    NavMeshAgent agent;
+    NavMeshAgent Agent;
     Animator animator;
     CharacterStats characterStats;
 
+    [Header("Gun Settings")]
+    public GunfireController gun; // Reference to the gun component
+
     [Header("Combat")]
-    public float attackRange = 15f;
-    public float attackCooldown = 1.2f;
+    public float AttackRange = 5f;
+    public float AttackCooldown = 2f;
 
-    [Header("Gun")]
-    public GunfireController gun;
-
-    bool canAttack = true;
+    bool CanAttack = true;
     bool isDead = false;
 
+    // Start is called before the first frame update
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
+        Agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
         characterStats = GetComponent<CharacterStats>();
 
-        // Assign player to gun automatically
-        gun.player = System_Manager.system.Player;
+        // Initialize gun if assigned
+        if (gun != null)
+        {
+            gun.player = System_Manager.system.Player;
+            gun.enemyIsAttacking = false;
+        }
     }
 
+    // Update is called once per frame
     void Update()
     {
         if (characterStats.IsDead)
         {
-            if (!isDead)
+            if (!isDead) // Check if we already triggered death
+            {
                 Die();
-            return;
+            }
+            return; // Exit Update early
         }
 
-        float distance = Vector3.Distance(System_Manager.system.Player.position, transform.position);
+        // Normalize the speed value between 0 and 1
+        float normalizedSpeed = Mathf.Clamp01(Agent.velocity.magnitude / Agent.speed);
+        animator.SetFloat("Speed", normalizedSpeed);
 
-        // Move toward player
-        if (distance <= attackRange)
+        float Distance = Vector3.Distance(System_Manager.system.Player.position, transform.position);
+
+        if (Distance <= AttackRange)
         {
-            agent.SetDestination(System_Manager.system.Player.position);
+            Agent.SetDestination(System_Manager.system.Player.position);
 
-            float speed = agent.velocity.magnitude / agent.speed;
-            animator.SetFloat("Speed", speed);
-
-            // Stop and shoot
-            if (distance <= agent.stoppingDistance)
+            if (Distance < Agent.stoppingDistance)
             {
-                agent.isStopped = true;
+                // Stop the agent when within stopping distance
+                Agent.isStopped = true;
 
-                if (canAttack)
+                if (CanAttack)
                 {
-                    StartCoroutine(AttackCooldown());
+                    StartCoroutine(AttackCoolDown());
                     animator.SetTrigger("Attack");
                 }
             }
             else
             {
-                agent.isStopped = false;
+                // Resume movement if player moves away
+                Agent.isStopped = false;
             }
+        }
+        else
+        {
+            // Ensure agent is stopped when out of range
+            Agent.isStopped = false;
         }
     }
 
@@ -72,25 +85,55 @@ public class Boss_Cpmtroller : MonoBehaviour
     {
         isDead = true;
         animator.SetBool("IsDead", true);
-        agent.isStopped = true;
-        gun.enemyIsAttacking = false;
+        Agent.isStopped = true;
+
+        // Stop gun from firing when dead
+        if (gun != null)
+        {
+            gun.enemyIsAttacking = false;
+        }
+
         enabled = false;
     }
 
-    IEnumerator AttackCooldown()
+    IEnumerator AttackCoolDown()
     {
-        canAttack = false;
+        CanAttack = false;
 
-        gun.enemyIsAttacking = true;
+        // Start gun firing
+        if (gun != null)
+        {
+            gun.enemyIsAttacking = true;
+        }
 
-        yield return new WaitForSeconds(attackCooldown);
+        yield return new WaitForSeconds(AttackCooldown);
 
-        gun.enemyIsAttacking = false;
-        canAttack = true;
+        // Stop gun firing after cooldown
+        if (gun != null)
+        {
+            gun.enemyIsAttacking = false;
+        }
+
+        CanAttack = true;
     }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.CompareTag("Player"))
+        {
+            Debug.Log("Enemy hit the player!!!!!!!!!!!!");
+            characterStats.changeHealth(-collider.GetComponentInParent<CharacterStats>().power);
+
+            if (characterStats.CurrentHealth <= 0)
+            {
+                animator.SetBool("IsDead", true);
+                enabled = false; // stops Update()
+            }
+        }
+    }
+
     public void DamagePlayer()
     {
-
         System_Manager.system.Player.GetComponent<CharacterStats>().changeHealth(-characterStats.power);
     }
 }

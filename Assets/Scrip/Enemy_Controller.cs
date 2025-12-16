@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Enemy_Controller : MonoBehaviour
 {
-   // public Transform Player;
+    // public Transform Player;
     NavMeshAgent Agent;
     Animator animator;
     CharacterStats characterStats;
@@ -42,12 +42,12 @@ public class Enemy_Controller : MonoBehaviour
         float normalizedSpeed = Mathf.Clamp01(Agent.velocity.magnitude / Agent.speed);
 
         animator.SetFloat("Speed", normalizedSpeed);
-        float Distance=Vector3.Distance(System_Manager.system.Player.position,transform.position);
+        float Distance = Vector3.Distance(System_Manager.system.Player.position, transform.position);
         if (Distance <= AttackRange)
         {
-           // Agent.destination = System_Manager.system.Player.position;
+            // Agent.destination = System_Manager.system.Player.position;
             Agent.SetDestination(System_Manager.system.Player.position);
-            if(Distance<Agent.stoppingDistance)
+            if (Distance < Agent.stoppingDistance)
             {
                 // FaceTarget();
                 if (CanAttack)
@@ -82,7 +82,7 @@ public class Enemy_Controller : MonoBehaviour
             Debug.Log("Enemy hit the player!!!!!!!!!!!!");
             characterStats.changeHealth(-collider.GetComponentInParent<CharacterStats>().power);
             //Destroy(gameObject);
-            if(characterStats.CurrentHealth<=0)
+            if (characterStats.CurrentHealth <= 0)
             {
                 animator.SetBool("IsDead", true);
                 //Agent.isStopped = true;
