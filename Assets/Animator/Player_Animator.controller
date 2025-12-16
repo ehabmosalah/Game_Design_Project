@@ -125,9 +125,6 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: -6832260130180461346}
     m_Position: {x: 420, y: -70, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 399421077757178335}
-    m_Position: {x: 333.19684, y: 272.81866, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -172,7 +169,7 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: f1278e878a42a084d9986ce62f6c4c15, type: 3}
+    m_Motion: {fileID: 7400000, guid: 08d2590d7476c68448145c3974b54af7, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -180,7 +177,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: bad0b9a36a6b6cd449e45f6eed851e24, type: 3}
+    m_Motion: {fileID: 7400000, guid: ac3a5b070ab3ba14f8de39bdb85c7730, type: 2}
     m_Threshold: 0.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -188,7 +185,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 6c4afe3b29955df4da31de2ae0f3754f, type: 3}
+    m_Motion: {fileID: 7400000, guid: 8c899dc14edf4fe45a99d65b936fc60e, type: 2}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -282,32 +279,6 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1102 &399421077757178335
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Great Sword High Spin Attack
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: f0b601147b319044d9a80e4871cb3a10, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1101 &2710818510890172961
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
