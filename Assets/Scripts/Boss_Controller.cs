@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Boss_Controller : MonoBehaviour
+public class Boss_Controller : Enemy_Base
 {
     NavMeshAgent Agent;
     Animator animator;
@@ -132,8 +132,12 @@ public class Boss_Controller : MonoBehaviour
         }
     }
 
-    public void DamagePlayer()
+    public override void DamagePlayer()
     {
         System_Manager.system.Player.GetComponent<CharacterStats>().changeHealth(-characterStats.power);
+    }
+    public override CharacterStats GetCharacterStats()
+    {
+        return characterStats;
     }
 }

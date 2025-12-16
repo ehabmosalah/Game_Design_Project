@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy_Controller : MonoBehaviour
+public class Enemy_Controller : Enemy_Base
 {
     // public Transform Player;
     NavMeshAgent Agent;
@@ -14,7 +14,6 @@ public class Enemy_Controller : MonoBehaviour
     public float AttackRange = 5f;
     bool CanAttack = true;
     float AttackCooldown = 2f;
-    private bool isDead = false;
 
 
     // Start is called before the first frame update
@@ -30,14 +29,6 @@ public class Enemy_Controller : MonoBehaviour
     void Update()
     {
 
-        if (characterStats.IsDead)
-        {
-            if (!isDead) // Check if we already triggered death
-            {
-                Die();
-            }
-            return; // Exit Update early
-        }
         // Normalize the speed value between 0 and 1
         float normalizedSpeed = Mathf.Clamp01(Agent.velocity.magnitude / Agent.speed);
 
@@ -62,8 +53,7 @@ public class Enemy_Controller : MonoBehaviour
     }
     void Die()
     {
-        isDead = true;
-        animator.SetBool("IsDead", true);
+        animator.SetTrigger("IsDead");
         Agent.isStopped = true;
         enabled = false;
 
@@ -91,9 +81,13 @@ public class Enemy_Controller : MonoBehaviour
         }
     }
 
-    public void DamagePlayer()
+    public override void DamagePlayer()
     {
 
         System_Manager.system.Player.GetComponent<CharacterStats>().changeHealth(-characterStats.power);
+    }
+    public override CharacterStats GetCharacterStats()
+    {
+        return characterStats;
     }
 }

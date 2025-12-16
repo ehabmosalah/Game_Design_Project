@@ -12,16 +12,47 @@ public class Animation_Events : MonoBehaviour
     }
     public void PlayerDamage()
     {
-        Enemy_Controller[] enemies = transform.GetComponentsInParent<Enemy_Controller>();
+        Enemy_Base enemy = GetComponent<Enemy_Base>();
+        if (enemy == null)
+            enemy = GetComponentInParent<Enemy_Base>();
 
-        foreach (Enemy_Controller enemy in enemies)
+        if (enemy != null)
         {
             enemy.DamagePlayer();
         }
+        else
+        {
+            Debug.LogError("No Enemy_Base found on " + gameObject.name);
+        }
 
     }
+
+
+    ///------------------------------ Sound Events ------------------------------///
     public void MoveSound()
     {
         System_Manager.system.PlaySound(System_Manager.system.Sounds[0], System_Manager.system.Player.position);
+    }
+    public void SwordSound_1()
+    {
+        System_Manager.system.PlaySound(System_Manager.system.Sounds[2], System_Manager.system.Player.position);
+    }
+    public void SwordSound_2()
+    {
+        System_Manager.system.PlaySound(System_Manager.system.Sounds[3], System_Manager.system.Player.position);
+    }
+    public void SwordSound_3()
+    {
+        System_Manager.system.PlaySound(System_Manager.system.Sounds[4], System_Manager.system.Player.position);
+    }
+    public void JumpSound()
+    {
+        System_Manager.system.PlaySound(System_Manager.system.Sounds[5], System_Manager.system.Player.position);
+    }
+    public void Enemy_MoveSound()
+    {
+
+        Vector3 enemyPosition = transform.position;
+        System_Manager.system.PlaySound(System_Manager.system.Sounds[6], enemyPosition);
     }
 }

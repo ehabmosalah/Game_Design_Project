@@ -46,7 +46,10 @@ public class Player_Movement : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Clamp(moveDirection.magnitude, 0f, 0.5f) + (IsSprint ? 0.5f : 0));
 
         if (controller.isGrounded && Input.GetAxis("Jump") > 0)
+        {
+            animator.SetTrigger("Jump");
             verticalVelocity = jumpHeight;
+        }
         else
             verticalVelocity += gravity * Time.deltaTime;
 

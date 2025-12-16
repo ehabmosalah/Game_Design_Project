@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Skeleton_Controller : MonoBehaviour
+public class Skeleton_Controller : Enemy_Base
 {
     // public Transform Player;
     NavMeshAgent Agent;
@@ -15,6 +15,7 @@ public class Skeleton_Controller : MonoBehaviour
     public float AttackRange = 5f;
     bool CanAttack = true;
     float AttackCooldown = 2f;
+    bool deathAnimationStarted = false;
 
     // Start is called before the first frame update
     void Start()
@@ -28,13 +29,14 @@ public class Skeleton_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (characterStats.IsDead)
+        if (characterStats.IsDead && !deathAnimationStarted)
         {
-            animator.SetBool("IsDead", true);
-            Agent.isStopped = true;
-            enabled = false;
-            return; // Exit Update immediately
+            StartCoroutine(DieWithAnimation());
+            deathAnimationStarted = true;
+            return;
         }
+
+        if (characterStats.IsDead) return;
 
         // Normalize the speed value between 0 and 1
         float normalizedSpeed = Mathf.Clamp01(Agent.velocity.magnitude / Agent.speed);
@@ -46,7 +48,7 @@ public class Skeleton_Controller : MonoBehaviour
             if (distance > Agent.stoppingDistance)
             {
                 Agent.isStopped = false;
-                Agent.SetDestination(System_Manager.system.Player.position );
+                Agent.SetDestination(System_Manager.system.Player.position);
             }
             else
             {
@@ -59,6 +61,17 @@ public class Skeleton_Controller : MonoBehaviour
                 }
             }
         }
+    }
+    IEnumerator DieWithAnimation()
+    {
+        animator.SetTrigger("IsDead");
+        Agent.isStopped = true;
+        enabled = false;
+
+        // Wait for death animation to finish (adjust time based on your animation)
+        yield return new WaitForSeconds(30f); // Adjust this time
+
+        Destroy(gameObject);
     }
 
     IEnumerator AttackCoolDown()
@@ -77,9 +90,13 @@ public class Skeleton_Controller : MonoBehaviour
         }
     }
 
-    public void DamagePlayer()
+    public override void DamagePlayer()
     {
 
         System_Manager.system.Player.GetComponent<CharacterStats>().changeHealth(-characterStats.power);
+    }
+    public override CharacterStats GetCharacterStats()
+    {
+        return characterStats;
     }
 }
