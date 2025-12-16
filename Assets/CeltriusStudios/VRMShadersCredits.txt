@@ -1,0 +1,5 @@
+Everything contained in the "VRMShaders" Folder is part of the
+UniVrm Package, which is available here: https://github.com/vrm-c/UniVRM
+It is licensed under the "MIT License" which grants me commercial use.
+
+This package and the contained shaders are essential for the character to display properly!
