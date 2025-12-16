@@ -70,6 +70,7 @@ public class Enemy_Controller : Enemy_Base
         if (collider.CompareTag("Player"))
         {
             Debug.Log("Enemy hit the player!!!!!!!!!!!!");
+            Instantiate(System_Manager.system.Particles[0], collider.transform.position, collider.transform.rotation);
             characterStats.changeHealth(-collider.GetComponentInParent<CharacterStats>().power);
             //Destroy(gameObject);
             if (characterStats.CurrentHealth <= 0)

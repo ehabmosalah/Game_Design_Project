@@ -85,7 +85,12 @@ public class Skeleton_Controller : Enemy_Base
         if (collider.CompareTag("Player"))
         {
             Debug.Log("Enemy hit the player!!!!!!!!!!!!");
+
+            Instantiate(System_Manager.system.Particles[0], collider.transform.position, collider.transform.rotation);
+            //Destroy(p, 2f);
             characterStats.changeHealth(-collider.GetComponentInParent<CharacterStats>().power);
+            if(characterStats.CurrentHealth <= 0)
+                Instantiate(System_Manager.system.Particles[4], collider.transform.position, collider.transform.rotation);
             //Destroy(gameObject);
         }
     }

@@ -122,10 +122,11 @@ public class Boss_Controller : Enemy_Base
         if (collider.CompareTag("Player"))
         {
             Debug.Log("Enemy hit the player!!!!!!!!!!!!");
+            Instantiate(System_Manager.system.Particles[0], collider.transform.position, collider.transform.rotation);
             characterStats.changeHealth(-collider.GetComponentInParent<CharacterStats>().power);
-
             if (characterStats.CurrentHealth <= 0)
             {
+                Instantiate(System_Manager.system.Particles[3], collider.transform.position, collider.transform.rotation);
                 animator.SetBool("IsDead", true);
                 enabled = false; // stops Update()
             }

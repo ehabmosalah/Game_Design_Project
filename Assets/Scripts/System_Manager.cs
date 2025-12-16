@@ -9,6 +9,7 @@ public class System_Manager : MonoBehaviour
     public static System_Manager system;
     public Transform Player;
     public AudioClip[] Sounds;
+    public Transform[] Particles;
 
     public int score;
     public int level_Items;

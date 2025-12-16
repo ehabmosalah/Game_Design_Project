@@ -9,6 +9,7 @@ public class Player_Movement : MonoBehaviour
     Animator animator;
     CharacterStats characterStats;
 
+
     public float speed = 6f;
     public float gravity = -10f;
     public float jumpHeight = 3f;  // Renamed for clarity
@@ -73,6 +74,7 @@ public class Player_Movement : MonoBehaviour
             Debug.Log("Player hit by Health");
             GetComponent<CharacterStats>().changeHealth(20f);
             System_Manager.system.PlaySound(System_Manager.system.Sounds[1], System_Manager.system.Player.position);
+            Instantiate(System_Manager.system.Particles[5], other.transform.position, other.transform.rotation);
             Destroy(other.gameObject);
         }
 
