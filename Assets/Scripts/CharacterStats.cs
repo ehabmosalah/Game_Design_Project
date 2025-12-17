@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CharacterStats : MonoBehaviour
 {
@@ -61,7 +62,9 @@ public class CharacterStats : MonoBehaviour
         else if (transform.CompareTag("Player"))
         {
             Debug.Log("Player has died!");
-            // Implement player death logic here (e.g., respawn, game over screen, etc.)
+            
+            Destroy(gameObject);
+            SceneManager.LoadScene("MainMenu");
         }
     }
 
