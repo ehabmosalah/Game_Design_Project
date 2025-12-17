@@ -15,7 +15,7 @@ public class Boss_Controller : Enemy_Base
 
     [Header("Combat")]
     public float AttackRange = 5f;
-    public float AttackCooldown = 2f;
+    public float AttackCooldown = 10f;
 
     bool CanAttack = true;
     bool isDead = false;

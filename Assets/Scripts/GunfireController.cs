@@ -66,14 +66,24 @@ namespace BigRookGames.Weapons
             {
                 Debug.DrawLine(muzzlePosition.position, hit.point, Color.red, 0.2f);
 
-                CharacterStats stats = hit.collider.GetComponent<CharacterStats>();
-                if (stats != null)
+                // Check if we hit the player (by tag)
+                if (hit.collider.CompareTag("Player"))
                 {
-                    stats.changeHealth(-damage);
+                    CharacterStats stats = hit.collider.GetComponent<CharacterStats>();
+                    if (stats != null)
+                    {
+                        stats.changeHealth(-damage);
+                        Debug.Log($"Hit player! Health reduced by {damage}");
+                    }
                 }
-
-                // Optional hit effect
-                // Instantiate(hitEffectPrefab, hit.point, Quaternion.LookRotation(hit.normal));
+                else
+                {
+                    Debug.Log($"Hit non-player object: {hit.collider.name}");
+                }
+            }
+            else
+            {
+                Debug.Log("Missed player");
             }
         }
     }
