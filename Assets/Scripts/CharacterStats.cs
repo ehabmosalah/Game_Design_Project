@@ -62,7 +62,8 @@ public class CharacterStats : MonoBehaviour
         else if (transform.CompareTag("Player"))
         {
             Debug.Log("Player has died!");
-            
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             Destroy(gameObject);
             SceneManager.LoadScene("MainMenu");
         }
