@@ -5,8 +5,10 @@
 ## 🎮 Gameplay Demo
 
 <p align="center">
-  <a href="https://raw.githubusercontent.com/ehabmosalah/Game_Design_Project/main/Assets/Game%20play.mp4">
-    <img src="https://via.placeholder.com/720x405.png?text=Click+to+Watch+Gameplay+Video" alt="Gameplay Video Preview" width="720">
+  <!-- This is the standard, reliable way to embed a YouTube video on GitHub. -->
+  <!-- It displays the video thumbnail, which is clickable to watch the video. -->
+  <a href="https://youtu.be/gBxz17Huz8k">
+    <img src="https://img.youtube.com/vi/gBxz17Huz8k/maxresdefault.jpg" alt="Shadow's Redemption Gameplay Demo" width="720">
   </a>
 </p>
 
